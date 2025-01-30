@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Stopwatch</title>
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #ffecd2, #79d2f8);
+    }
+    
+    #container {
+        text-align: center;
+        background: white;
+        padding: 50px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    
+    .stopwatch {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        background: aquamarine;
+        border-radius: 50%;
+        padding: 40px;
+        display: inline-block;
+        min-width: 200px;
+    }
+    
+    button {
+        font-size: 1.2rem;
+        background-color: antiquewhite;
+        border: none;
+        padding: 10px 20px;
+        margin: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    
+    #lapList {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 20px;
+        max-height: 200px;
+        overflow-y: auto;
+        background: antiquewhite;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    
+    h1{
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-weight: bolder;
+        font-size: 50px;
+    }
+    
+    #lapList li {
+        margin: 5px 0;
+        font-size: 1.2rem;
+    }
+</style>
+</head>
+<body>
+
+<div id="container">
+    <h1>STOPWATCH</h1>
+    <div class="stopwatch">00:00:00</div>
+    <div class="buttons">
+        <button onclick="startStopwatch()">Start</button>
+        <button onclick="stopStopwatch()">Stop</button>
+        <button onclick="resetStopwatch()">Reset</button>
+    </div>
+    </div>
+<script>
+let timer;
+        let elapsedTime = 0;
+        let running = false;
+
+        function startStopwatch() {
+            if (!running) {
+                running = true;
+                let startTime = Date.now() - elapsedTime;
+                timer = setInterval(() => {
+                    elapsedTime = Date.now() - startTime;
+                    document.querySelector(".stopwatch").textContent = formatTime(elapsedTime);
+                }, 100);
+            }
+        }
+
+        function stopStopwatch() {
+            running = false;
+            clearInterval(timer);
+        }
+
+        function resetStopwatch() {
+            stopStopwatch();
+            elapsedTime = 0;
+            document.querySelector(".stopwatch").textContent = "00:00:00";
+        }
+
+        function formatTime(ms) {
+            let totalSeconds = Math.floor(ms / 1000);
+            let minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+            let seconds = (totalSeconds % 60).toString().padStart(2, '0');
+            let milliseconds = Math.floor((ms % 1000) / 10).toString().padStart(2, '0');
+            return `${minutes}:${seconds}:${milliseconds}`;
+        }
+    </script>
+
+</body>
+</html>
